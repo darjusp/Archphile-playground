@@ -13,4 +13,4 @@ Stream audio from the device
 
 Troubleshooting:
 - first connection can take more than one attempt
-- connecting to Android succeeded. Connecting to Macbook 2010 - > NOT
+- connecting to Android phone succeeded. Connecting to Macbook 2010 - > NOT
