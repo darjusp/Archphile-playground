@@ -1,0 +1,41 @@
+#!/usr/bin/expect -f
+set prompt "#"
+set timeout 20
+set pincode "1111\r"
+spawn bluetoothctl --agent NoInputNoOutput
+expect -re $prompt
+sleep 1
+send "default-agent\r"
+expect -re $prompt
+send "power on\r"
+
+expect -re $prompt
+send "pairable on\r"
+
+expect -re $prompt
+send "discoverable on\r"
+
+send_user "\nStart Sleeping\r"
+sleep 1
+expect { 
+	"Enter PIN code" {
+		send $pincode
+		send_user "Pincode sent\n"
+		
+		expect "yes/no"
+		send "yes\r"
+		sleep 2
+		send "quit\r"
+		exec bluealsa-aplay 00:00:00:00:00:00 &
+		sleep 1
+		exit
+	}
+	"yes/no" {
+		send "yes\r"
+		sleep 2
+		send "quit\r"
+		exec  bluealsa-aplay 00:00:00:00:00:00 &
+		sleep 1
+		exit
+	}
+}
