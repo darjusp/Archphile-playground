@@ -1,0 +1,26 @@
+#!/usr/bin/expect -f
+set prompt "#"
+
+if {[file exists "temp_trust.txt"]} {
+
+    set f [open "temp_trust.txt"]
+    set hosts [split [read $f] "\n"]
+    close $f
+
+    spawn bluetoothctl
+    expect -re $prompt
+    sleep 1
+    expect -re $prompt
+    send "power on\r"
+    expect "power on succeeded"
+
+    foreach host $hosts {
+        if {[string trim $host] != ""} {
+                send "trust $host\r"
+                expect "trust succeeded"
+        }
+    }
+
+    send "quit\r"
+}
+exit
